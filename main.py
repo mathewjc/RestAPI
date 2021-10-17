@@ -98,7 +98,7 @@ def UpdateStatus(id):
     db.session.commit()
     return {"Status updated":bug.BugID}
 
-@app.route('/bugasgn/<id>', methods = ['PATCH'])
+@app.route('/bugs/asgn/<id>', methods = ['PATCH'])
 def AssignBug(id):
     bug = Bugs.query.get(id)
     if bug is None:
@@ -107,9 +107,9 @@ def AssignBug(id):
     db.session.commit()
     return {"Bug Assigned":bug.BugID}
 
-@app.route('/rsbugs', methods = ['GET'])
-def GetResolvedBugs():
-    bugs = Bugs.query.filter_by(Status=0)
+@app.route('/bugs/sts/<sts>', methods = ['GET'])
+def GetResolvedBugs(sts):
+    bugs = Bugs.query.filter_by(Status=sts)
     bugsJason = []
     for bug in bugs:
         comments = Comments.query.filter_by(BugID=bug.BugID)
@@ -133,7 +133,7 @@ def DeleteBug(id):
         DeleteCmnt(comment.CmntID )
     return {"Deleted Bug":id}
 
-@app.route('/cmnts', methods = ['POST'])
+@app.route('/bugs/cmnts', methods = ['POST'])
 def AddCmnt():
     newcmnt = Comments()
     print(request.json)
@@ -145,7 +145,7 @@ def AddCmnt():
     db.session.commit()
     return {"New comment is added for ticket " : newcmnt.BugID}
 
-@app.route('/cmnts/<id>', methods = ['DELETE'])
+@app.route('/bugs/cmnts/<id>', methods = ['DELETE'])
 def DeleteCmnt(id):
     cmnt = Comments.query.get(id)
     if cmnt is None:
