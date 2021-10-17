@@ -89,7 +89,7 @@ def UpdateBug(id):
     db.session.commit()
     return {"Update bug":bug.BugID}
 
-@app.route('/bugsts/<id>', methods = ['PATCH'])
+@app.route('/bugs/sts/<id>', methods = ['PATCH'])
 def UpdateStatus(id):
     bug = Bugs.query.get(id)
     if bug is None:
@@ -107,7 +107,7 @@ def AssignBug(id):
     db.session.commit()
     return {"Bug Assigned":bug.BugID}
 
-@app.route('/bugs/sts/<sts>', methods = ['GET'])
+@app.route('/bugs/fltr/<sts>', methods = ['GET'])
 def GetResolvedBugs(sts):
     bugs = Bugs.query.filter_by(Status=sts)
     bugsJason = []
